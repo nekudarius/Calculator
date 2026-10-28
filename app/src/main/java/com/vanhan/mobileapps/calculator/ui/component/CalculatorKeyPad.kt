@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.vanhan.mobileapps.calculator.DevicePreviews
 import com.vanhan.mobileapps.calculator.ui.theme.CalculatorTheme
@@ -76,42 +77,58 @@ fun CalculatorKeypadUI(
         ) { idx ->
             when (val key = keyPadToShow[idx]) {
                 is CalcKey.Clear -> CalculatorBtn(
+                    modifier = Modifier.testTag("btn_clear"),
                     label = key.label,
                     color = color,
                     variant = ButtonVariant.Function,    // styling custom
                     onClick = onClearClick,
                 )
                 is CalcKey.Delete -> CalculatorBtn(
+                    modifier = Modifier.testTag("btn_delete"),
                     label = key.label,
                     color = color,
                     variant = ButtonVariant.Function,
                     onClick = onDeleteClick,
                 )
                 is CalcKey.Percent -> CalculatorBtn(
+                    modifier = Modifier.testTag("btn_percent"),
                     label = key.label,
                     color = color,
                     variant = ButtonVariant.Function,
                     onClick = onPercentClick,
                 )
-                is CalcKey.Operator -> CalculatorBtn(
-                    label = key.label,
-                    color = color,
-                    variant = ButtonVariant.Operator,
-                    onClick = { onOperatorClick(key.op) },
-                )
+                is CalcKey.Operator -> {
+                    val tag = when (key.op) {
+                        '+' -> "btn_plus"
+                        '−' -> "btn_minus"
+                        '×' -> "btn_multiply"
+                        '÷' -> "btn_divide"
+                        else -> error("Unknown operator ${key.op}")
+                    }
+                    CalculatorBtn(
+                        modifier = Modifier.testTag(tag),
+                        label = key.label,
+                        color = color,
+                        variant = ButtonVariant.Operator,
+                        onClick = { onOperatorClick(key.op) },
+                    )
+                }
                 is CalcKey.Equals -> CalculatorBtn(
+                    modifier = Modifier.testTag("btn_equals"),
                     label = key.label,
                     color = color,
                     variant = ButtonVariant.Equals,
                     onClick = onEqualClick,
                 )
                 is CalcKey.Dot -> CalculatorBtn(
+                    modifier = Modifier.testTag("btn_dot"),
                     label = key.label,
                     color = color,
                     variant = ButtonVariant.Number,
                     onClick = onDotClick,
                 )
                 is CalcKey.Number -> CalculatorBtn(
+                    modifier = Modifier.testTag("btn_${key.value}"),
                     label = key.label,
                     color = color,
                     variant = ButtonVariant.Number,

@@ -41,18 +41,22 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     CalculatorTheme {
-        Greeting("Android")
+        Scaffold { innerPadding ->
+            val vm = remember {
+                CalculatorViewModel(
+                    MathEngineImpl()
+                )
+            }
+            CalculatorScreen(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                vm = vm
+            )
+        }
     }
 }

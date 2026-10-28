@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -70,6 +71,7 @@ private fun DisplaySection(
     ) {
         // Expression (Small)
         Text(
+            modifier = Modifier.testTag("txt_expression"),
             text = expression.ifBlank { "0" },
             style = MaterialTheme.typography.titleLarge.copy(
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.7f)
@@ -80,6 +82,7 @@ private fun DisplaySection(
         Spacer(Modifier.height(8.dp))
         // Result / Error (Large)
         Text(
+            modifier = Modifier.testTag("txt_result"),
             text = error ?: result,
             style = MaterialTheme.typography.displaySmall.copy(fontWeight = FontWeight.Bold),
             color = if (error != null) MaterialTheme.colorScheme.error
